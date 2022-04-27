@@ -1,33 +1,23 @@
 package com.example.prueba;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +25,7 @@ import models.VolleyS;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TOKEN = "token";
     private EditText etEmail;
     private EditText etPass;
     String email, password;
@@ -95,20 +86,24 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String token = response.get("token").toString();
-                            Toast.makeText(MainActivity.this, "token: " + response.get("token").toString(), Toast.LENGTH_SHORT).show();
-                            SharedPreferences preferencias =  getSharedPreferences("sesion", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferencias.edit();
-                            editor.putString("token", token);
-                            editor.commit();
 
+                            String token = response.get("token").toString();
+                            //Toast.makeText(MainActivity.this, "token: " + response.get("token").toString(), Toast.LENGTH_SHORT).show();
+                            //SharedPreferences preferencias =  getSharedPreferences("sesion", Context.MODE_PRIVATE);
+                            //SharedPreferences.Editor editor = preferencias.edit();
+                            //editor.putString("token", token);
+                            //editor.commit();
+
+                            //String token1 = response.get("token").toString();
                             Intent intent = new Intent(MainActivity.this, alert.class);
+                            intent.putExtra(TOKEN,token);
                             startActivity(intent);
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 }, new Response.ErrorListener() {
 
